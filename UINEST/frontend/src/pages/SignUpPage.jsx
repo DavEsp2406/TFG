@@ -1,6 +1,6 @@
 import { useState } from "react"
 import { useAuthStore } from "../store/useAuthStore"
-import { MessageSquare, User, Mail, Lock, Eye, EyeOff, Loader, Loader2 } from "lucide-react"
+import { MessageSquare, User, Mail, Lock, Eye, EyeOff, Loader2 } from "lucide-react"
 import { Link } from "react-router-dom"
 import toast from "react-hot-toast"
 
@@ -14,7 +14,7 @@ const SignUpPage = () => {
 
   const { signup, isSigningUp } = useAuthStore()
 
-  const validateForm = () => { 
+  const validateForm = () => {
     if (!formData.fullName.trim()) return toast.error("Full name is required")
     if (!formData.email.trim()) return toast.error("Email is required")
     if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) return toast.error("Invalid email format")
