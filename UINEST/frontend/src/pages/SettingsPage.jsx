@@ -41,7 +41,72 @@ const SettingsPage = () => {
             </button>
           ))}
         </div>
+        {/* Preview Section */}
+        <h3 className="mb-3 font-semibold text-lg">Preview</h3>
+        <div className="bg-base-100 shadow-lg border border-base-300 rounded-xl overflow-hidden">
+          <div className="bg-base-200 p-4">
+            <div className="mx-auto max-w-lg">
+              {/* Mock Chat UI */}
+              <div className="bg-base-100 shadow-sm rounded-xl overflow-hidden">
+                {/* Chat Header */}
+                <div className="bg-base-100 px-4 py-3 border-b border-base-300">
+                  <div className="flex items-center gap-3">
+                    <div className="flex justify-center items-center bg-primary rounded-full w-8 h-8 font-medium text-primary-content">
+                      J
+                    </div>
+                    <div>
+                      <h3 className="font-medium text-sm">Jane Doe</h3>
+                      <p className="text-xs text-base-content/70">Online</p>
+                    </div>
+                  </div>
+                </div>
 
+                {/* Chat Messages */}
+                <div className="space-y-4 bg-base-100 p-4 min-h-[200px] max-h-[200px] overflow-y-auto">
+                  {PREVIEW_MESSAGES.map((message) => (
+                    <div
+                      key={message.id}
+                      className={`flex ${message.isSent ? "justify-end" : "justify-start"}`}
+                    >
+                      <div
+                        className={`
+                          max-w-[80%] rounded-xl p-3 shadow-sm
+                          ${message.isSent ? "bg-primary text-primary-content" : "bg-base-200"}
+                        `}
+                      >
+                        <p className="text-sm">{message.content}</p>
+                        <p
+                          className={`
+                            text-[10px] mt-1.5
+                            ${message.isSent ? "text-primary-content/70" : "text-base-content/70"}
+                          `}
+                        >
+                          12:00 PM
+                        </p>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+
+                {/* Chat Input */}
+                <div className="bg-base-100 p-4 border-t border-base-300">
+                  <div className="flex gap-2">
+                    <input
+                      type="text"
+                      className="flex-1 input-bordered h-10 text-sm input"
+                      placeholder="Type a message..."
+                      value="This is a preview"
+                      readOnly
+                    />
+                    <button className="h-10 min-h-0 btn btn-primary">
+                      <Send size={18} />
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   )

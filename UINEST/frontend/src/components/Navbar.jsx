@@ -1,5 +1,5 @@
 import { useAuthStore } from "../store/useAuthStore";
-import { MessageSquare, Settings, User, LogOut } from "lucide-react";
+import { MessageSquare, MessagesSquare, Settings, User, LogOut, Bird } from "lucide-react";
 import { Link } from "react-router-dom";
 
 const Navbar = () => {
@@ -12,13 +12,22 @@ const Navbar = () => {
                     <div className="flex items-center gap-8">
                         <Link to="/" className="flex items-center gap-2.5 hover:opacity-80 transition-all">
                             <div className="flex justify-center items-center bg-primary/10 rounded-lg size-9">
-                                <MessageSquare className="size-5 text-primary" />
+                                <Bird className="size-5 text-primary" />
                             </div>
                             <h1 className="font-bold text-lg">UINEST</h1>
                         </Link>
                     </div>
 
-                    <div className="flex items-center gap-2">
+                    <div className="flex items-center gap-4">
+                        {authUser && (
+                            <>
+                                <Link to={"/messages"} className="gap-2 transition-colors btn btn-sm">
+                                    <MessagesSquare className="size-4" />
+                                    <span className="hidden sm:inline">Messages</span>
+                                </Link>
+                            </>
+                        )}
+
                         <Link to={"/settings"} className="gap-2 transition-colors btn btn-sm">
                             <Settings className="size-4" />
                             <span className="hidden sm:inline">Settings</span>
