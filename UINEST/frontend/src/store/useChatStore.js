@@ -12,7 +12,7 @@ export const useChatStore = create((set) => ({
     getUsers: async () => {
         set({ isUsersLoading: true });
         try {
-            const res = await axiosInstance.get('/users');
+            const res = await axiosInstance.get('/messages/users');
             set({ users: res.data });
         } catch (error) {
             toast.error(error.response.data.message);
@@ -33,6 +33,6 @@ export const useChatStore = create((set) => ({
         }
     },
 
-    setSelected: (selectedUser) => set({ selectedUser }),
+    setSelectedUser: (selectedUser) => set({ selectedUser }),
 
 }));
