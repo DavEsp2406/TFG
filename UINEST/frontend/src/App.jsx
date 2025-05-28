@@ -5,6 +5,7 @@ import LogInPage from './pages/LogInPage.jsx'
 import SettingsPage from './pages/SettingsPage.jsx'
 import ProfilePage from './pages/ProfilePage.jsx'
 import MessagesPage from './pages/MessagesPage.jsx'
+import ProfileSettingsPage from './pages/ProfileSettingsPage.jsx'
 
 
 import { Routes, Route, Navigate } from 'react-router-dom'
@@ -17,7 +18,8 @@ import { useThemeStore } from './store/useThemeStore.js'
 
 const App = () => {
   const { authUser, checkAuth, isCheckingAuth } = useAuthStore()
-  const theme = useThemeStore((state) => state.theme)
+  const { theme } = useThemeStore()
+
   useEffect(() => {
     checkAuth()
   }, [checkAuth])
@@ -42,6 +44,7 @@ const App = () => {
         <Route path="/messages" element={authUser ? <MessagesPage /> : <Navigate to="/login" />} />
         <Route path="/settings" element={<SettingsPage />} />
         <Route path="/profile" element={authUser ? <ProfilePage /> : <Navigate to="/login" />} />
+        <Route path="/profile/settings" element={authUser ? <ProfileSettingsPage /> : <Navigate to="/login" />} />
       </Routes>
 
       <Toaster />

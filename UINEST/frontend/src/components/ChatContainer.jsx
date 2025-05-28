@@ -46,18 +46,17 @@ function ChatContainer() {
                             <time className="opacity-50 ml-1 text-xs">
                                 {formatMessageTime(message.createdAt)}
                             </time>
-                            <div className="flex chat-bubble">
-                                {message.image && (
-                                    <img
-                                        src={message.image}
-                                        alt="Attachment"
-                                        className="mb-2 rounded-md sm:max-w-[200px]"
-                                    />
-                                )}
-                                {message.text && <p>{message.text}</p>}
-                            </div>
                         </div>
-
+                        <div className="flex flex-col chat-bubble">
+                            {message.image && (
+                                <img
+                                    src={message.image}
+                                    alt="Attachment"
+                                    className="mb-2 rounded-md sm:max-w-[200px]"
+                                />
+                            )}
+                            {message.text && <p>{message.text}</p>}
+                        </div>
                     </div>
                 ))}
             </div>
