@@ -21,6 +21,9 @@ const Navbar = () => {
                     <div className="flex items-center gap-4">
                         {authUser && (
                             <>
+                                <Link to={"/uploadComponent"} className="btn btn-primary btn-sm">
+                                    Crear componente
+                                </Link>
                                 <Link to={"/messages"} className="gap-2 transition-colors btn btn-sm">
                                     <MessagesSquare className="size-4" />
                                     <span className="hidden sm:inline">Messages</span>

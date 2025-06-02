@@ -1,87 +1,89 @@
-import { useState } from "react"
-import { useAuthStore } from "../store/useAuthStore"
-import { Camera, Mail, User } from "lucide-react"
+import { useState } from "react";
+import { useComponentStore } from "../store/useComponentStore";
+import { useNavigate } from "react-router-dom";
 
-const ProfilePage = () => {
-  const { authUser, isUpdatingProfile, updateProfile } = useAuthStore()
+const UploadComponent = () => {
+  const { createComponent, isCreating } = useComponentStore();
+  const [title, setTitle] = useState("");
+  const [htmlCode, setHtmlCode] = useState("");
+  const [cssCode, setCssCode] = useState("");
+  const [error, setError] = useState("");
+  const navigate = useNavigate();
 
-  const [selectedImage, setSelectedImage] = useState(null)
-
-  const handleImageUpload = async (e) => {
-    const file = e.target.files[0]
-    if (!file) return
-
-    const reader = new FileReader()
-
-    reader.readAsDataURL(file)
-
-    reader.onload = async () => {
-      const base64Image = reader.result
-      setSelectedImage(base64Image)
-      await updateProfile({ profilePic: base64Image })
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    if (!title.trim() || !htmlCode.trim()) {
+      setError("El título y el código HTML son obligatorios.");
+      return;
     }
-
-  }
+    setError("");
+    try {
+      await createComponent({ title, htmlCode, cssCode });
+      navigate("/");
+    } catch (err) {
+      setError("Error al crear el componente.");
+    }
+  };
 
   return (
-    <div className="pt-20 h-screen">
+    <div className="pt-20 min-h-screen">
       <div className="mx-auto p-4 py-8 max-w-2xl">
         <div className="space-y-8 bg-base-300 p-6 rounded-xl">
           <div className="text-center">
-            <h1 className="font-semibold text-2xl">Profile</h1>
-            <p className="mt-2">Your profile information</p>
+            <h1 className="font-semibold text-2xl">Nuevo componente</h1>
+            <p className="mt-2">Completa el formulario para publicar tu componente</p>
           </div>
 
-          {/* avatar upload section */}
-
-          <div className="flex flex-col items-center gap-4">
-            <div className="relative">
-              <img src={selectedImage || authUser.profilePic || "/avatar.png"} alt="Profile" className="border-4 rounded-full size-32 object-cover" />
-              <label htmlFor="avatar-upload" className={`right-0 bottom-0 absolute bg-base-content p-2 rounded-full hover:scale-105 transition-all cursor-pointer duration-200 ${isUpdatingProfile ? "animate-pulse pointer-events-none" : ""}`}>
-                <Camera className="size-5 text-base-200" />
-                <input type="file" id="avatar-upload" className="hidden" accept="image/*" onChange={handleImageUpload} disabled={isUpdatingProfile} />
-              </label>
-            </div>
-            <p className="text-zinc-400 text-sm">
-              {isUpdatingProfile ? "Uploading..." : "Click the camera icon to update your photo"}
-            </p>
-          </div>
-
-          <div className="space-y-6">
+          <form className="space-y-6" onSubmit={handleSubmit}>
             <div className="space-y-1.5">
-              <div className="flex items-center gap-2 text-zinc-400 text-sm">
-                <User className="size-4" />
-                Full Name
-              </div>
-              <p className="bg-base-200 px-4 py-2.5 border rounded-lg" >{authUser?.fullName}</p>
+              <label className="block font-medium text-zinc-400 text-sm">Título</label>
+              <input
+                className="input-bordered w-full input"
+                placeholder="Título del componente"
+                value={title}
+                onChange={e => setTitle(e.target.value)}
+                disabled={isCreating}
+              />
             </div>
 
             <div className="space-y-1.5">
-              <div className="flex items-center gap-2 text-zinc-400 text-sm">
-                <Mail className="size-4" />
-                Email Address
-              </div>
-              <p className="bg-base-200 px-4 py-2.5 border rounded-lg">{authUser?.email}</p>
+              <label className="block font-medium text-zinc-400 text-sm">Código HTML</label>
+              <textarea
+                className="textarea-bordered w-full textarea"
+                placeholder="<button>Mi botón</button>"
+                value={htmlCode}
+                onChange={e => setHtmlCode(e.target.value)}
+                rows={5}
+                disabled={isCreating}
+              />
             </div>
-          </div>
 
-          <div className="bg-base-300 mt-6 p-6 rounded-xl">
-            <h2 className="mb-4 font-medium text-lg">Account Information</h2>
-            <div className="space-y-3 text-sm">
-              <div className="flex justify-between items-center py-2 border-zinc-700 border-b">
-                <span>Member Since</span>
-                <span>{authUser.createdAt?.split("T")[0]}</span>
-              </div>
-              <div className="flex justify-between items-center py-2">
-                <span>Account Status</span>
-                <span className="text-green-500">Active</span>
-              </div>
+            <div className="space-y-1.5">
+              <label className="block font-medium text-zinc-400 text-sm">Código CSS (opcional)</label>
+              <textarea
+                className="textarea-bordered w-full textarea"
+                placeholder={`.btn { background: #000; color: #fff; }`}
+                value={cssCode}
+                onChange={e => setCssCode(e.target.value)}
+                rows={3}
+                disabled={isCreating}
+              />
             </div>
-          </div>
+
+            {error && <div className="text-red-500 text-sm">{error}</div>}
+
+            <button
+              className="w-full btn btn-primary"
+              type="submit"
+              disabled={isCreating}
+            >
+              {isCreating ? "Publicando..." : "Publicar componente"}
+            </button>
+          </form>
         </div>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default ProfilePage
+export default UploadComponent;
