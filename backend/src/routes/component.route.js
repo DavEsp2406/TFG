@@ -4,6 +4,7 @@ import {
     getAllComponents,
     getComponentById,
     toggleLikeComponent,
+    searchComponents
 } from "../controllers/component.controller.js";
 import { protectRoute } from "../middleware/auth.middleware.js";
 
@@ -14,6 +15,9 @@ router.post("/", protectRoute, createComponent);
 
 // Obtener todos los componentes (público)
 router.get("/", getAllComponents);
+
+// Buscar componentes (público)
+router.get("/search", searchComponents);
 
 // Obtener un componente por ID (público)
 router.get("/:id", getComponentById);

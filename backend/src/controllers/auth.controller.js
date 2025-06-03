@@ -83,24 +83,41 @@ export const logout = (req, res) => {
 }
 export const updateProfile = async (req, res) => {
     try {
-        const { profilePic } = req.body
-        const userId = req.user._id
+        const { profilePic, linkedin, instagram, github } = req.body;
+        const userId = req.user._id;
 
-        if (!profilePic) {
-            return res.status(400).json({ message: "Profile picture is required" })
+        const updateFields = {};
+
+        // Solo sube y actualiza la imagen si se envía una nueva
+        if (profilePic) {
+            const uploadResponse = await cloudinary.uploader.upload(profilePic);
+            updateFields.profilePic = uploadResponse.secure_url;
         }
 
-        const uploadResponse = await cloudinary.uploader.upload(profilePic)
-        const updatedUser = await User.findByIdAndUpdate(userId, { profilePic: uploadResponse.secure_url }, { new: true })
+        // Actualiza redes sociales si se envían
+        if (linkedin !== undefined) updateFields.linkedin = linkedin;
+        if (instagram !== undefined) updateFields.instagram = instagram;
+        if (github !== undefined) updateFields.github = github;
 
-        const { password, ...userWithoutPassword } = updatedUser._doc
-        res.status(200).json(userWithoutPassword)
+        // Si no hay nada que actualizar
+        if (Object.keys(updateFields).length === 0) {
+            return res.status(400).json({ message: "No fields to update" });
+        }
+
+        const updatedUser = await User.findByIdAndUpdate(
+            userId,
+            { $set: updateFields },
+            { new: true }
+        );
+
+        const { password, ...userWithoutPassword } = updatedUser._doc;
+        res.status(200).json(userWithoutPassword);
 
     } catch (error) {
-        console.log("Error in updateProfile controller", error.message)
-        res.status(500).json({ message: "Internal Server Error" })
+        console.log("Error in updateProfile controller", error.message);
+        res.status(500).json({ message: "Internal Server Error" });
     }
-}
+};
 export const checkAuth = (req, res) => {
     try {
         res.status(200).json(req.user)

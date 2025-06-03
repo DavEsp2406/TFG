@@ -31,13 +31,19 @@ export const getAllComponents = async (req, res) => {
         const limit = parseInt(req.query.limit) || 20;
         const skip = (page - 1) * limit;
 
-        const components = await Component.find()
+        // Nuevo: filtro por autor si viene en la query
+        const filter = {};
+        if (req.query.author) {
+            filter.author = req.query.author;
+        }
+
+        const components = await Component.find(filter)
             .populate("author", "fullName profilePic")
             .sort({ createdAt: -1 })
             .skip(skip)
             .limit(limit);
 
-        const total = await Component.countDocuments();
+        const total = await Component.countDocuments(filter);
 
         res.status(200).json({
             components,
@@ -88,5 +94,34 @@ export const toggleLikeComponent = async (req, res) => {
     } catch (error) {
         console.error("Error toggling like:", error);
         res.status(500).json({ message: "Error toggling like" });
+    }
+};
+
+export const searchComponents = async (req, res) => {
+    try {
+        const { q } = req.query;
+        if (!q) {
+            return res.status(400).json({ message: "Query is required" });
+        }
+
+        // Búsqueda insensible a mayúsculas/minúsculas en título o nombre del autor
+        const components = await Component.find({
+            $or: [
+                { title: { $regex: q, $options: "i" } },
+            ]
+        })
+            .populate("author", "fullName profilePic")
+            .sort({ createdAt: -1 });
+
+        // Filtrar también por nombre del autor (en JS porque author es un objeto)
+        const filtered = components.filter(comp =>
+            comp.title.toLowerCase().includes(q.toLowerCase()) ||
+            (comp.author?.fullName && comp.author.fullName.toLowerCase().includes(q.toLowerCase()))
+        );
+
+        res.status(200).json({ components: filtered });
+    } catch (error) {
+        console.error("Error searching components:", error);
+        res.status(500).json({ message: "Error searching components" });
     }
 };

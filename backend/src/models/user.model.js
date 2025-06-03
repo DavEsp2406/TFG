@@ -20,11 +20,22 @@ const userSchema = new mongoose.Schema(
             type: String,
             default: "",
         },
+        linkedin: {
+            type: String,
+            default: "",
+        },
+        instagram: {
+            type: String,
+            default: "",
+        },
+        github: {
+            type: String,
+            default: "",
+        },
     },
-    { timestamps: true}
+    { timestamps: true }
 )
 
 const User = mongoose.model("User", userSchema)
 
 export default User
-
