@@ -47,7 +47,11 @@ const App = () => {
         <Route path="/uploadComponent" element={authUser ? <UploadComponent /> : <Navigate to="/login" />} />
         <Route path="/messages" element={authUser ? <MessagesPage /> : <Navigate to="/login" />} />
         <Route path="/settings" element={<SettingsPage />} />
-        <Route path="/profile" element={authUser ? <ProfilePage /> : <Navigate to="/login" />} />
+        <Route
+          path="/profile"
+          element={authUser ? <Navigate to={`/profile/${authUser._id}`} /> : <Navigate to="/login" />}
+        />
+        <Route path="/profile/:userId" element={<ProfilePage />} />
         <Route path="/profile/settings" element={authUser ? <ProfileSettingsPage /> : <Navigate to="/login" />} />
       </Routes>
 

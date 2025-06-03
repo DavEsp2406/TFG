@@ -1,21 +1,22 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
 import { useComponentStore } from "../store/useComponentStore";
+import { useNavigate } from "react-router-dom";
 
-export default function UploadComponent() {
+const UploadComponent = () => {
+    const { uploadComponent, isLoading } = useComponentStore();
     const [title, setTitle] = useState("");
     const [htmlCode, setHtmlCode] = useState("");
     const [cssCode, setCssCode] = useState("");
     const [error, setError] = useState("");
-    const { uploadComponent } = useComponentStore();
     const navigate = useNavigate();
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        if (!title || !htmlCode) {
+        if (!title.trim() || !htmlCode.trim()) {
             setError("El título y el código HTML son obligatorios.");
             return;
         }
+        setError("");
         try {
             await uploadComponent({ title, htmlCode, cssCode });
             navigate("/");
@@ -25,34 +26,64 @@ export default function UploadComponent() {
     };
 
     return (
-        <div className="bg-base-100 shadow mx-auto mt-24 p-8 rounded max-w-xl">
-            <h2 className="mb-6 font-bold text-2xl">Crear nuevo componente</h2>
-            {error && <div className="mb-4 text-red-500">{error}</div>}
-            <form onSubmit={handleSubmit} className="flex flex-col gap-4">
-                <input
-                    className="input-bordered input"
-                    placeholder="Título"
-                    value={title}
-                    onChange={e => setTitle(e.target.value)}
-                />
-                <textarea
-                    className="textarea-bordered textarea"
-                    placeholder="Código HTML"
-                    value={htmlCode}
-                    onChange={e => setHtmlCode(e.target.value)}
-                    rows={5}
-                />
-                <textarea
-                    className="textarea-bordered textarea"
-                    placeholder="Código CSS (opcional)"
-                    value={cssCode}
-                    onChange={e => setCssCode(e.target.value)}
-                    rows={3}
-                />
-                <button className="btn btn-primary" type="submit">
-                    Crear
-                </button>
-            </form>
+        <div className="pt-20 min-h-screen">
+            <div className="mx-auto p-4 py-8 max-w-2xl">
+                <div className="space-y-8 bg-base-300 p-6 rounded-xl">
+                    <div className="text-center">
+                        <h1 className="font-semibold text-2xl">Nuevo componente</h1>
+                        <p className="mt-2">Completa el formulario para publicar tu componente</p>
+                    </div>
+
+                    <form className="space-y-6" onSubmit={handleSubmit}>
+                        <div className="space-y-1.5">
+                            <label className="block font-medium text-zinc-400 text-sm">Título</label>
+                            <input
+                                className="input-bordered w-full input"
+                                placeholder="Título del componente"
+                                value={title}
+                                onChange={e => setTitle(e.target.value)}
+                                disabled={isLoading}
+                            />
+                        </div>
+
+                        <div className="space-y-1.5">
+                            <label className="block font-medium text-zinc-400 text-sm">Código HTML</label>
+                            <textarea
+                                className="textarea-bordered w-full textarea"
+                                placeholder="<button>Mi botón</button>"
+                                value={htmlCode}
+                                onChange={e => setHtmlCode(e.target.value)}
+                                rows={5}
+                                disabled={isLoading}
+                            />
+                        </div>
+
+                        <div className="space-y-1.5">
+                            <label className="block font-medium text-zinc-400 text-sm">Código CSS (opcional)</label>
+                            <textarea
+                                className="textarea-bordered w-full textarea"
+                                placeholder={`.btn { background: #000; color: #fff; }`}
+                                value={cssCode}
+                                onChange={e => setCssCode(e.target.value)}
+                                rows={3}
+                                disabled={isLoading}
+                            />
+                        </div>
+
+                        {error && <div className="text-red-500 text-sm">{error}</div>}
+
+                        <button
+                            className="w-full btn btn-primary"
+                            type="submit"
+                            disabled={isLoading}
+                        >
+                            {isLoading ? "Publicando..." : "Publicar componente"}
+                        </button>
+                    </form>
+                </div>
+            </div>
         </div>
     );
-}
+};
+
+export default UploadComponent;

@@ -1,5 +1,5 @@
 import { useAuthStore } from "../store/useAuthStore";
-import { MessageSquare, MessagesSquare, Settings, User, LogOut, Bird } from "lucide-react";
+import { MessageSquare, MessagesSquare, Settings, User, LogOut, Bird, CirclePlus } from "lucide-react";
 import { Link } from "react-router-dom";
 
 const Navbar = () => {
@@ -22,7 +22,8 @@ const Navbar = () => {
                         {authUser && (
                             <>
                                 <Link to={"/uploadComponent"} className="btn btn-primary btn-sm">
-                                    Crear componente
+                                    <CirclePlus className="size-4" />
+                                    <span className="hidden sm:inline">Crear componente</span>
                                 </Link>
                                 <Link to={"/messages"} className="gap-2 transition-colors btn btn-sm">
                                     <MessagesSquare className="size-4" />
