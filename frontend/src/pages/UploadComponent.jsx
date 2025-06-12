@@ -13,7 +13,7 @@ const UploadComponent = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         if (!title.trim() || !htmlCode.trim()) {
-            setError("El título y el código HTML son obligatorios.");
+            setError("Title and HTML code are required.");
             return;
         }
         setError("");
@@ -21,7 +21,7 @@ const UploadComponent = () => {
             await uploadComponent({ title, htmlCode, cssCode });
             navigate("/");
         } catch (err) {
-            setError("Error al crear el componente.");
+            setError("Error in uploading component. Please try again.");
         }
     };
 
@@ -30,16 +30,16 @@ const UploadComponent = () => {
             <div className="mx-auto p-4 py-8 max-w-2xl">
                 <div className="space-y-8 bg-base-300 p-6 rounded-xl">
                     <div className="text-center">
-                        <h1 className="font-semibold text-2xl">Nuevo componente</h1>
-                        <p className="mt-2">Completa el formulario para publicar tu componente</p>
+                        <h1 className="font-semibold text-2xl">New Component</h1>
+                        <p className="mt-2">Complete the form to publish your component</p>
                     </div>
 
                     <form className="space-y-6" onSubmit={handleSubmit}>
                         <div className="space-y-1.5">
-                            <label className="block font-medium text-zinc-400 text-sm">Título</label>
+                            <label className="block font-medium text-zinc-400 text-sm">Title</label>
                             <input
                                 className="input-bordered w-full input"
-                                placeholder="Título del componente"
+                                placeholder="Component title"
                                 value={title}
                                 onChange={e => setTitle(e.target.value)}
                                 disabled={isLoading}
@@ -47,10 +47,10 @@ const UploadComponent = () => {
                         </div>
 
                         <div className="space-y-1.5">
-                            <label className="block font-medium text-zinc-400 text-sm">Código HTML</label>
+                            <label className="block font-medium text-zinc-400 text-sm">HTML Code</label>
                             <textarea
                                 className="textarea-bordered w-full textarea"
-                                placeholder="<button>Mi botón</button>"
+                                placeholder="<button>My button</button>"
                                 value={htmlCode}
                                 onChange={e => setHtmlCode(e.target.value)}
                                 rows={5}
@@ -59,7 +59,7 @@ const UploadComponent = () => {
                         </div>
 
                         <div className="space-y-1.5">
-                            <label className="block font-medium text-zinc-400 text-sm">Código CSS (opcional)</label>
+                            <label className="block font-medium text-zinc-400 text-sm">CSS Code</label>
                             <textarea
                                 className="textarea-bordered w-full textarea"
                                 placeholder={`.btn { background: #000; color: #fff; }`}
@@ -77,7 +77,7 @@ const UploadComponent = () => {
                             type="submit"
                             disabled={isLoading}
                         >
-                            {isLoading ? "Publicando..." : "Publicar componente"}
+                            {isLoading ? "Publishing..." : "Publish Component"}
                         </button>
                     </form>
                 </div>

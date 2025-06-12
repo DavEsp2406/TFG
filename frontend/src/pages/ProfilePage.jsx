@@ -43,8 +43,8 @@ const ProfilePage = () => {
         else setShowModal(false);
     }, [selectedComponent]);
 
-    if (loadingUser) return <div className="pt-20 text-center">Cargando perfil...</div>;
-    if (!user) return <div className="pt-20 text-red-500 text-center">Usuario no encontrado</div>;
+    if (loadingUser) return <div className="pt-20 text-center">Loading...</div>;
+    if (!user) return <div className="pt-20 text-red-500 text-center">User not found</div>;
 
     const isOwnProfile = authUser?._id === userId;
 
@@ -94,11 +94,11 @@ const ProfilePage = () => {
                 <hr className="my-8 border-zinc-700" />
 
                 {/* Componentes del usuario */}
-                <h3 className="mb-4 font-semibold text-lg text-center">Componentes de {user.fullName}</h3>
+                <h3 className="mb-4 font-semibold text-lg text-center">{user.fullName} Components</h3>
                 {loadingComponents ? (
-                    <div className="py-10 text-center">Cargando componentes...</div>
+                    <div className="py-10 text-center">Loading components...</div>
                 ) : userComponents.length === 0 ? (
-                    <div className="py-10 text-zinc-400 text-center">Este usuario no ha publicado componentes.</div>
+                    <div className="py-10 text-zinc-400 text-center">This user has not published any components.</div>
                 ) : (
                     <div className="gap-6 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3">
                         {userComponents.map((comp) => (

@@ -23,7 +23,7 @@ const Navbar = () => {
                             <>
                                 <Link to={"/uploadComponent"} className="btn btn-primary btn-sm">
                                     <CirclePlus className="size-4" />
-                                    <span className="hidden sm:inline">Crear componente</span>
+                                    <span className="hidden sm:inline">Upload Component</span>
                                 </Link>
                                 <Link to={"/messages"} className="gap-2 transition-colors btn btn-sm">
                                     <MessagesSquare className="size-4" />

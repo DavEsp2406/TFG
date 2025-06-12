@@ -1,6 +1,6 @@
 import { useState } from "react"
 import { useAuthStore } from "../store/useAuthStore"
-import { Camera, Mail, User } from "lucide-react"
+import { Github, Linkedin, Instagram, Camera, Mail, User } from "lucide-react";
 
 const ProfileSettingsPage = () => {
   const { authUser, isUpdatingProfile, updateProfile } = useAuthStore()
@@ -70,7 +70,10 @@ const ProfileSettingsPage = () => {
 
             {/* Social Links */}
             <div className="space-y-1.5">
-              <label className="block font-medium text-zinc-400 text-sm">LinkedIn</label>
+              <div className="flex items-center gap-2 text-zinc-400 text-sm">
+                <Linkedin className="size-4" />
+                LinkedIn
+              </div>
               <input
                 className="input-bordered w-full input"
                 placeholder="https://linkedin.com/in/usuario"
@@ -80,7 +83,10 @@ const ProfileSettingsPage = () => {
               />
             </div>
             <div className="space-y-1.5">
-              <label className="block font-medium text-zinc-400 text-sm">Instagram</label>
+              <div className="flex items-center gap-2 text-zinc-400 text-sm">
+                <Instagram className="size-4" />
+                Instagram
+              </div>
               <input
                 className="input-bordered w-full input"
                 placeholder="https://instagram.com/usuario"
@@ -90,7 +96,10 @@ const ProfileSettingsPage = () => {
               />
             </div>
             <div className="space-y-1.5">
-              <label className="block font-medium text-zinc-400 text-sm">GitHub</label>
+              <div className="flex items-center gap-2 text-zinc-400 text-sm">
+                <Github className="size-4" />
+                GitHub
+              </div>
               <input
                 className="input-bordered w-full input"
                 placeholder="https://github.com/usuario"

@@ -52,10 +52,10 @@ const SettingsPage = () => {
                 <div className="bg-base-100 px-4 py-3 border-b border-base-300">
                   <div className="flex items-center gap-3">
                     <div className="flex justify-center items-center bg-primary rounded-full w-8 h-8 font-medium text-primary-content">
-                      J
+                      O
                     </div>
                     <div>
-                      <h3 className="font-medium text-sm">Jane Doe</h3>
+                      <h3 className="font-medium text-sm">Obi Wan Kenobi</h3>
                       <p className="text-xs text-base-content/70">Online</p>
                     </div>
                   </div>
