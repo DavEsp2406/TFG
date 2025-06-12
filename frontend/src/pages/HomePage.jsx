@@ -49,7 +49,7 @@ export default function HomePage() {
       {/* Flex solo en lg+ para banners y grid */}
       <div className="lg:flex lg:justify-center lg:gap-8 mx-auto max-w-[1800px]">
         {/* Banner izquierdo */}
-        <div className="hidden lg:flex flex-col items-center pr-4 w-56">
+        <div className="hidden xl:flex flex-col items-center pr-4 w-56">
           <div className="top-1/2 sticky -translate-y-1/2">
             <a
               href="https://react.dev/"
@@ -71,7 +71,7 @@ export default function HomePage() {
         </div>
         {/* Grid de componentes */}
         <div className="flex-1">
-          <div className="gap-6 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 mx-auto px-2 lg:px-0 max-w-7xl">
+          <div className="gap-6 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 2xl:grid-cols-4 mx-auto px-2 lg:px-0 max-w-7xl">
             {filteredComponents.map((comp) => (
               <div
                 key={comp._id}
@@ -107,7 +107,7 @@ export default function HomePage() {
           </div>
         </div>
         {/* Banner derecho */}
-        <div className="hidden lg:flex flex-col items-center pl-4 w-56">
+        <div className="hidden xl:flex flex-col items-center pl-4 w-56">
           <div className="top-1/2 sticky -translate-y-1/2">
             <a
               href="https://tailwindcss.com/"
