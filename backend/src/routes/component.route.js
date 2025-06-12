@@ -22,7 +22,4 @@ router.get("/search", searchComponents);
 // Obtener un componente por ID (público)
 router.get("/:id", getComponentById);
 
-// Dar o quitar like a un componente (requiere autenticación)
-router.post("/:id/like", protectRoute, toggleLikeComponent);
-
 export default router;
